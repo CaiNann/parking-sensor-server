@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 const fetchDistance = async () => {
   try {
-    const response = await fetch('http://192.168.1.215:3000/distance');
+    const response = await fetch('http://10.0.0.77:3000/distance');
     const json = await response.json();
     console.log(json);
     return json['distance'];
@@ -17,12 +17,18 @@ const fetchDistance = async () => {
 
 export default function Index() {
   const [distance, setDistance] = useState(1000);
+  const [isSpotOpen, setSpotOpen] = useState(false); 
 
   useEffect(() => {
     const updateDistance = async () => {
       const newDistance = await fetchDistance();
       if (newDistance !== null) {
         setDistance(newDistance);
+        if (newDistance > 180) {
+          setSpotOpen(true); 
+        } else {
+          setSpotOpen(false);
+        }
       }
     };
 
@@ -32,8 +38,8 @@ export default function Index() {
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text style={{ fontSize: 96 }}>Distance: {distance}</Text>
-    </View>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" , backgroundColor: isSpotOpen ? "green" : "red"}}>
+      <Text style={{ fontSize: 48 }}>{isSpotOpen ? "Spot Open" : "Spot Taken"}</Text>
+</View>  
   );
 }
