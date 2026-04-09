@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 const fetchDistance = async () => {
   try {
-    const response = await fetch('http://10.0.0.77:3000/distance');
+    const response = await fetch('http://192.168.1.215:3000/distance');
     const json = await response.json();
     console.log(json);
     return json['distance'];
